@@ -1,19 +1,17 @@
-import React, { Component } from 'react';
+import React from 'react';
 import './App.css';
 
 import Logo from "./components/Logo/Logo"
 import ToDoList from "./components/ToDoList/ToDoList"
 
-class App extends Component {
-  render() {
-    return (
-      <React.Fragment>
-        <Logo />
-        <ToDoList />
-      </React.Fragment>
 
-    );
-  }
-}
+//App.js is just a container for a Logo and ToDoList components
+//ToDoList is the main component of the app containing state with totos
+const App = () => (
+  <React.Fragment>
+    <Logo />
+    <ToDoList/>
+  </React.Fragment>
+)
 
 export default App;
