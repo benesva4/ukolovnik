@@ -1,5 +1,23 @@
 body {
   margin: 0;
   padding: 0;
-  font-family: sans-serif;
+  font-family: 'Roboto', sans-serif;
+  color: #0c8599;
+  color:  rgba(0,0,0,0.7)
+ }
+
+input {
+  background-color: inherit;
+  font-family: inherit;
+  font-size: inherit;
+  color: inherit
+}
+
+::selection{
+  color: white;
+  background-color: #3bc9db;
+}
+
+h1 {
+  color: #0c8599;
 }

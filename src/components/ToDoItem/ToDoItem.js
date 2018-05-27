@@ -1,20 +1,25 @@
 import React from "react"
 
-import "./ToDoItem.css"
-
 const ToDoItem = props => {
 
-    const {children, edit, done}  = props
-     
+    const { text, edit, done, doneEdit, blur, focus, index, activeIndex } = props
+    
     return (
-        < React.Fragment >
-        <li>{props.children}
-            <button type="button" onClick={edit}>✏️</button>
-            <button type="button" onClick={done}>✔️</button>
-        </li>
-    </React.Fragment >
-)
-
+        <li className={(index === activeIndex) ? "bob" : "toDo"}>
+            <input
+                maxLength="50"
+                value={text}
+                onChange={edit}
+                onKeyPress={doneEdit} 
+                onBlur={blur}
+                onFocus={focus}/>
+            <button
+                type="button"
+                onClick={done} 
+                ><i className="fas fa-check"></i>
+            </button>
+        </li>)
 }
+
 export default ToDoItem
 
