@@ -1,4 +1,17 @@
 h1 {
+    text-align: center;
     font-family: 'Roboto', sans-serif;
+    position: relative;
+    letter-spacing: 6px;
+    font-variant: small-caps;
+    display: inline;
+    color: rgba(21, 238, 253, 0.904);
+    margin-bottom: 10px;
 }
-    
+
+ 
+h1:after {
+    content: "ÚKOLOVNÍK";
+    position: absolute; left: -5px; top: 2px;
+    color: rgba(100, 100, 100, 0.2);
+}

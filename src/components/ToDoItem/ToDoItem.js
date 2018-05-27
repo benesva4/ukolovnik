@@ -5,7 +5,7 @@ const ToDoItem = props => {
     const { text, edit, done, doneEdit, blur, focus, index, activeIndex } = props
     
     return (
-        <li className={(index === activeIndex) ? "bob" : "toDo"}>
+        <li className={(index === activeIndex) ? "active" : "toDo"}>
             <input
                 maxLength="50"
                 value={text}

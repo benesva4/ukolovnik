@@ -13,7 +13,8 @@ class ToDoList extends Component {
             "Koupit vejce",
         ],
         inputTemp: "",
-        activeIndex: null
+        activeIndex: null,
+        activeInput: false
     }
 
     newToDoHandler = event => {
@@ -61,6 +62,9 @@ class ToDoList extends Component {
         this.setState({activeIndex: index})
     }
 
+    inputFocusHandler = () => !this.state.activeInput ? this.setState({ activeInput: true}) : null
+    inputBlurHandler = () => this.state.activeInput ? this.setState({ activeInput: false}) : null
+
     render() {
         // toDoList is mapping the toDoItems from state ToDoItems component
         // as a children
@@ -82,12 +86,16 @@ class ToDoList extends Component {
         return (
             <div id="list">
                 <ul>
-                    <li id="input">
+                    <li id="input" className={ this.state.activeInput ? "active" : "" }>
                         <input
                             value={this.state.inputTemp}
                             placeholder="Vložte nový úkol."
                             onChange={this.inputChangeHandler}
-                            onKeyPress={e => e.key === "Enter" ? this.newToDoHandler() : null}></input>
+                            onKeyPress={e => e.key === "Enter" ? this.newToDoHandler() : null}
+                            onFocus={this.inputFocusHandler}
+                            onBlur={this.inputBlurHandler}
+                            />
+                            
                         <button type="button" onClick={this.newToDoHandler}>
                             <i className="fa fa-plus"></i>
                         </button>
