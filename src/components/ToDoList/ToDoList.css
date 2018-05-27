@@ -34,10 +34,6 @@ input {
     width: 80%;
 }
 
-button:focus, button:hover {
-    box-shadow: 0 0 10px 2px rgba(0,0,0,0.2);
-    color: rgba(0,0,0,0.5);
-}
 button {
     display: flex;
     align-content: center;
@@ -51,10 +47,6 @@ button {
     color: white;
 }
 
-:focus, :active { outline: none }
-::-moz-focus-inner { border: 0}
-::-ms-clear { display: none }
-
 button:focus, button:hover {
     box-shadow: 0 0 10px 2px rgba(0,0,0,0.2);
     background-color: #3bc9db;
@@ -66,9 +58,14 @@ button:active {
     color: white;
     transform: translateY(1px) 
 }
-/*ZMĚNIT NÁZEV!*/
+
+:focus, :active { outline: none }
+::-moz-focus-inner { border: 0}
+::-ms-clear { display: none }
+
 .active {
     box-shadow: 0 0 5px 2px #3bc9db;  
+    color:  rgba(0,0,0,0.9)
 }
 
 @media (max-width: 400px) {

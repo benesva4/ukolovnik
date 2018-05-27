@@ -12,7 +12,3 @@ input {
   color: inherit
 }
 
-::selection{
-  color: white;
-  background-color: #3bc9db;
-}

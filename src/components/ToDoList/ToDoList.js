@@ -3,20 +3,26 @@ import React, { Component } from "react"
 import ToDoItem from "../ToDoItem/ToDoItem"
 import "./ToDoList.css"
 
-// ToDoList is the main point of the app
-// It consist of state which contain todos
 class ToDoList extends Component {
     state = {
-        toDoItems: [
-            "Koupit mouku",
-            "Koupit chleba",
-            "Koupit vejce",
-        ],
+        toDoItems: [],
         inputTemp: "",
         activeIndex: null,
         activeInput: false
     }
 
+    // fetch data from memory and put them to the state
+    componentDidMount = () => {
+        const toDoItems = JSON.parse(localStorage.getItem("toDoItems"))
+        if (toDoItems !== null) this.setState({ toDoItems })
+
+    }
+
+    // save toDoItems to storage 
+    componentDidUpdate = () => localStorage.setItem("toDoItems", JSON.stringify(this.state.toDoItems))
+
+    // newToDoHandler pushes temporary toDo to the toDoItems
+    // and reseting the temporary input
     newToDoHandler = event => {
         if (this.state.inputTemp !== "") {
             let toDoItems = this.state.toDoItems
@@ -25,17 +31,20 @@ class ToDoList extends Component {
         }
     }
 
+    // inputHandler updates temporary toDo in the state
     inputChangeHandler = event => {
         const inputTemp = event.target.value
         this.setState({ inputTemp })
     }
 
+    // doneHandler splaces out completed item
     doneHandler = (index) => {
         let toDoItems = this.state.toDoItems
         toDoItems.splice(index, 1)
         this.setState({ toDoItems: toDoItems })
     }
 
+    // editHandler is updating the state when the toDoItem is updated
     editHandler = (event, index) => {
         let toDoItems = this.state.toDoItems
         toDoItems[index] = event.target.value
@@ -50,24 +59,27 @@ class ToDoList extends Component {
         }
     }
 
-    handleBlur = (event,index) => {
-        this.setState({activeIndex: null})
+    // handleFocus sets the index of the focused ToDoItem to the state
+    // so it can be evalated to set the class of the ToDoItem
+    handleFocus = index => {
+        this.setState({ activeIndex: index })
+    }
+
+    // handleBlur resets the activeIndex and calls doneHandler for empty inputs
+    handleBlur = index => {
+        this.setState({ activeIndex: null })
         const toDoItem = this.state.toDoItems[index]
         if (toDoItem.length === 0) {
             this.doneHandler(index)
         }
     }
 
-    handleFocus = (event, index) => {
-        this.setState({activeIndex: index})
-    }
-
-    inputFocusHandler = () => !this.state.activeInput ? this.setState({ activeInput: true}) : null
-    inputBlurHandler = () => this.state.activeInput ? this.setState({ activeInput: false}) : null
+    // handlers used for toggling the className="active" of the Input
+    inputFocusHandler = () => this.setState({ activeInput: true })
+    inputBlurHandler = () => this.setState({ activeInput: false })
 
     render() {
-        // toDoList is mapping the toDoItems from state ToDoItems component
-        // as a children
+        // toDoList is mapping the toDoItems from state to ToDoItem component
         const toDoList = this.state.toDoItems
             .map((toDo, index) => (
                 <ToDoItem
@@ -78,15 +90,15 @@ class ToDoList extends Component {
                     edit={(event) => this.editHandler(event, index)}
                     doneEdit={(event) => this.doneEditHandler(event, index)}
                     text={toDo}
-                    blur={(event) => this.handleBlur(event, index)}
-                    focus={(event) => this.handleFocus(event, index)} />
+                    blur={() => this.handleBlur(index)}
+                    focus={() => this.handleFocus(index)} />
             )
             )
 
         return (
             <div id="list">
                 <ul>
-                    <li id="input" className={ this.state.activeInput ? "active" : "" }>
+                    <li id="input" className={this.state.activeInput ? "active" : ""}>
                         <input
                             value={this.state.inputTemp}
                             placeholder="Vložte nový úkol."
@@ -94,8 +106,7 @@ class ToDoList extends Component {
                             onKeyPress={e => e.key === "Enter" ? this.newToDoHandler() : null}
                             onFocus={this.inputFocusHandler}
                             onBlur={this.inputBlurHandler}
-                            />
-                            
+                        />
                         <button type="button" onClick={this.newToDoHandler}>
                             <i className="fa fa-plus"></i>
                         </button>
