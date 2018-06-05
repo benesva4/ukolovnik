@@ -14,8 +14,7 @@ class ToDoList extends Component {
     // fetch data from memory and put them to the state
     componentDidMount = () => {
         const toDoItems = JSON.parse(localStorage.getItem("toDoItems"))
-        if (toDoItems !== null) this.setState({ toDoItems })
-
+        if (toDoItems !== null) { this.setState({ toDoItems }) }
     }
 
     // save toDoItems to storage 
@@ -23,53 +22,47 @@ class ToDoList extends Component {
 
     // newToDoHandler pushes temporary toDo to the toDoItems
     // and reseting the temporary input
-    newToDoHandler = event => {
+    newToDoHandler = () => {
         if (this.state.inputTemp !== "") {
-            let toDoItems = this.state.toDoItems
-            toDoItems.push(this.state.inputTemp)
-            this.setState({ toDoItems, inputTemp: "" })
+            this.setState(({ toDoItems, inputTemp }) => {
+                return {
+                    toDoItems: [...toDoItems, inputTemp],
+                    inputTemp: ""
+                }
+            })
         }
     }
 
     // inputHandler updates temporary toDo in the state
-    inputChangeHandler = event => {
-        const inputTemp = event.target.value
-        this.setState({ inputTemp })
-    }
+    inputChangeHandler = event => this.setState({ inputTemp: event.target.value })
 
-    // doneHandler splaces out completed item
-    doneHandler = (index) => {
-        let toDoItems = this.state.toDoItems
-        toDoItems.splice(index, 1)
-        this.setState({ toDoItems: toDoItems })
-    }
+    // doneHandler splices out completed item
+    doneHandler = index => this.setState(prevState => ({ toDoITems: prevState.toDoItems.splice(index, 1) }))
 
     // editHandler is updating the state when the toDoItem is updated
     editHandler = (event, index) => {
-        let toDoItems = this.state.toDoItems
-        toDoItems[index] = event.target.value
-        this.setState({ toDoItems })
+        const key = event.target.value
+        this.setState(({ toDoItems }) => {
+            const newToDoItems = [...toDoItems]
+            newToDoItems[index] = key
+            return { toDoItems: newToDoItems }
+        })
     }
 
     // doneEditHandler unfocus input field when the enter is pressed
     // and delete the task if the input is empty
     doneEditHandler = (event, index) => {
-        if (event.key === "Enter") {
-            event.target.blur()
-        }
+        if (event.key === "Enter") { event.target.blur() }
     }
 
     // handleFocus sets the index of the focused ToDoItem to the state
     // so it can be evalated to set the class of the ToDoItem
-    handleFocus = index => {
-        this.setState({ activeIndex: index })
-    }
+    handleFocus = index => this.setState({ activeIndex: index })
 
     // handleBlur resets the activeIndex and calls doneHandler for empty inputs
     handleBlur = index => {
         this.setState({ activeIndex: null })
-        const toDoItem = this.state.toDoItems[index]
-        if (toDoItem.length === 0) {
+        if (this.state.toDoItems[index].length === 0) {
             this.doneHandler(index)
         }
     }
